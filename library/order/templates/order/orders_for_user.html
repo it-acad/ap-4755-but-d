@@ -1,0 +1,14 @@
+{% for order in orders %}
+<h1>Order ID: {{order.id}}</h1>
+<h2>Info about order:</h2>
+
+<ul>
+  <li><strong>Book - {{order.book.name}}</strong></li>
+  <li><strong>Order created at - {{order.created_at }}</strong></li>
+  <li><strong>Due date - {{order.plated_end_at}}</strong></li>
+</ul>
+{% endfor %}
+
+<a href="{% url 'order:add-order' %}">Create order</a>
+<a href="{% url 'auth:dashboard' %}">Dashboard</a>
+<a href="{% url 'auth:logout' %}">Log out</a>

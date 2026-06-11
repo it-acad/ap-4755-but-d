@@ -1,0 +1,20 @@
+<h2>Welcome, {{ request.user.first_name }}</h2>
+
+{% if role == 1 %}
+<div>
+  <h3>Welcome to admin page</h3>
+  <a href="{% url 'author:authors' %}">Authors</a>
+  <a href="{% url 'book:books' %}">Books</a>
+  <a href="{% url 'order:orders' %}">Orders</a>
+  <p>There is no functional for you for now, but soon you'll have what to do</p>
+</div>
+{% elif role == 0 %}
+<div>
+  <h3>Welcome to visitor page</h3>
+  <a href="{% url 'order:user-orders' %}">My orders</a>
+  <a href="{% url 'book:books' %}">Books</a>
+  <p>There is also nothing for you, but soon it'll change</p>
+</div>
+{% endif %}
+
+<a href="{% url 'auth:logout' %}">Log out</a>

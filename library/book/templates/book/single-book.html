@@ -1,0 +1,8 @@
+<h1>{{ book.name }}</h1>
+<h2>
+  Desription:
+  <p>{{ book.description }}</p>
+</h2>
+<h2>Available copies: {{book.count}}</h2>
+
+<a href="{% url 'book:books' %}">Return to the books</a>

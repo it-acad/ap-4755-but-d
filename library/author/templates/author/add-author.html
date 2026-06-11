@@ -1,0 +1,12 @@
+<form method="POST">
+  {% csrf_token %}
+  <input type="text" name="name" placeholder="First Name" />
+  <input type="text" name="surname" placeholder="Surname" />
+  <input type="text" name="patronymic" placeholder="Patronymic" />
+
+  <button type="submit">Add author</button>
+</form>
+
+{% if messages %} {% for message in messages %}
+<p>{{message}}</p>
+{% endfor %} {% endif %}

@@ -1,0 +1,36 @@
+<form method="get">
+  <label for="sort">Sort by:</label>
+  <select id="sort" name="sort" onchange="this.form.submit()">
+    <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name ↑</option>
+    <option value="-name" {% if current_sort == '-name' %}selected{% endif %}>Name ↓</option>
+    <option value="count" {% if current_sort == 'count' %}selected{% endif %}>Count ↑</option>
+    <option value="-count" {% if current_sort == '-count' %}selected{% endif %}>Count ↓</option>
+    <option value="id" {% if current_sort == 'id' %}selected{% endif %}>ID ↑</option>
+    <option value="-id" {% if current_sort == '-id' %}selected{% endif %}>ID ↓</option>
+  </select>
+</form>
+
+<ul>
+  {% for book in books %}
+  <li>
+    <a href="{% url 'book:book' book.id %}"><strong>{{ book.name }}</strong></a>
+    <br />
+    {{ book.description }}
+    <br />
+    Count: {{ book.count }}
+
+    <ul>
+      {% for author in book.authors.all %}
+      <li>{{ author.name }} {{ author.surname }} {{ author.patronymic }}</li>
+      {% empty %}
+      <li>No authors attached</li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% empty %}
+  <li>No books found.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'auth:dashboard' %}">Dashboard</a>
+<a href="{% url 'auth:logout' %}">Log out</a>

@@ -1,0 +1,25 @@
+<form method="POST">
+  {% csrf_token %}
+  <input type="text" name="first_name" placeholder="First Name" required />
+  <input type="text" name="middle_name" placeholder="Middle Nmae" required />
+  <input type="text" name="last_name" placeholder="Last Name" required />
+  <input type="text" name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" />
+
+  <label>Select your role</label>
+  <select name="role">
+    <option value="0">Visitor</option>
+    <option value="1">Admin</option>
+  </select>
+
+  <button type="submit">Sign Up</button>
+</form>
+
+<div class="actions">
+  <p>Already have an account? <a href="{% url 'auth:login' %}">Log in</a></p>
+  <a href="{% url 'auth:home' %}">Home</a>
+</div>
+
+{% if messages %} {% for message in messages %}
+<p>{{message}}</p>
+{% endfor %} {% endif %}

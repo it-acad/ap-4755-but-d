@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Page</title>
+  </head>
+  <body>
+    <main class="welcome-card">
+      <p class="eyebrow">Library Management System</p>
+      <h1>Welcome to your library workspace</h1>
+      <p class="subtitle">
+        Sign in to manage books, authors, and orders, or create a new account to
+        get started.
+      </p>
+
+      <div class="actions">
+        <a class="button button-primary" href="{% url 'auth:login' %}"
+          >Log in</a
+        >
+        <a class="button button-secondary" href="{% url 'auth:register' %}"
+          >Register</a
+        >
+      </div>
+
+      <p class="footer-note">Choose an option above to continue.</p>
+    </main>
+  </body>
+</html>
