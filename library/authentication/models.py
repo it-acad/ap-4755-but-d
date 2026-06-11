@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 #
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -25,10 +26,12 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("role", 1)
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, password, **extra_fields)
 
 ####
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
     This class represents a basic user. \n
     Attributes:
@@ -62,10 +65,13 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=20, default="")
     middle_name = models.CharField(max_length=20, default="")
     email = models.EmailField(max_length=100, unique=True, default="")
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
+    
     is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     def __str__(self):
         """
@@ -134,7 +140,7 @@ class CustomUser(AbstractBaseUser):
         return True
 
     @staticmethod
-    def create(email, password, first_name=None, middle_name=None, last_name=None):
+    def create(email, password, first_name=None, middle_name=None, last_name=None, role=0):
         """
         :param first_name: first name of a user
         :type first_name: str
@@ -159,18 +165,31 @@ class CustomUser(AbstractBaseUser):
             return None
         if last_name and len(last_name) > 20:
             return None
+        if role not in (0,1):
+            return None
 
         try:
-            user = CustomUser(
+            # user = CustomUser(
+            #     email=email,
+            #     first_name=first_name or "",
+            #     middle_name=middle_name or "",
+            #     last_name=last_name or "",
+            #     is_active=True,
+            # )
+            # user.set_password(password)
+            # user.save()
+            # return user
+            return CustomUser.objects.create_user(
                 email=email,
+                password=password,
                 first_name=first_name or "",
                 middle_name=middle_name or "",
                 last_name=last_name or "",
+                role=role,
                 is_active=True,
+                is_staff=(role==1),
+                is_superuser=(role==1)
             )
-            user.set_password(password)
-            user.save()
-            return user
         except Exception:
             return None
 

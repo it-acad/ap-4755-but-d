@@ -22,29 +22,32 @@ def register_view(request):
         password = request.POST.get('password')
         role = request.POST.get('role')
         
-        if not first_name or not middle_name or not last_name or not email or not password or not role:
+        if not first_name or not middle_name or not last_name or not email or not password or role is None:
             messages.error(request, 'All fields are required')
             return render(request, 'authentication/register.html')
+        
+        if role not in ('0', '1'):
+            messages.error(request, "Choose between visitor and admin")
+            return redirect('auth:register')
         
         if CustomUser.get_by_email(email=email) is not None:
             messages.error(request, 'This email is already in use')
             return render(request, 'authentication/register.html')
+        
         user = CustomUser.create(
             email=email,
             password=password,
             first_name=first_name,
             middle_name=middle_name,
-            last_name=last_name
+            last_name=last_name,
+            role=int(role)
         )
         
         if user is None:
             messages.error(request, "Invalid data")
             return redirect('auth:register')
-        if role not in ('0', '1'):
-            messages.error(request, "Choose between visitor and admin")
-            return redirect('auth:register')
-        user.role = int(role)
-        user.save()
+        
+        
         
         login(request, user)
         return redirect('auth:dashboard')
