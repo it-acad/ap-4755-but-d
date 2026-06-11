@@ -23,5 +23,14 @@ class AuthorAdmin(admin.ModelAdmin):
         'surname',
         'patronymic'
     ]
+    
+    fieldsets = [
+        (
+            "Info about Author",
+            {
+                'fields': ('name', 'surname', 'patronymic')
+            }
+        )
+    ]
 
 admin.site.register(Author, AuthorAdmin)

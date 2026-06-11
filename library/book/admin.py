@@ -16,11 +16,24 @@ class BookAdmin(admin.ModelAdmin):
     ]
     
     search_fields = [
-        'id',
-        'count',
-        'authors'
+        '=id',
+        'name',
+        '=count',
+        'authors__name',
+        'authors__surname'
     ]
-
+    
+    fieldsets = [
+        (
+            "Static info about book",
+            {'fields':('name','description', 'authors')}
+        ),
+        (
+            "Info that can be changed",
+            {'fields':('count',)}
+        )
+    ]
+    
     def authors_list(self, obj):
         return ", ".join(
             f"{author.name} {author.surname}"

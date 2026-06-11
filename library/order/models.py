@@ -5,7 +5,7 @@ class Order(models.Model):
     book = models.ForeignKey('book.Book', on_delete=models.CASCADE, related_name='user_orders')
     user = models.ForeignKey('authentication.CustomUser', on_delete=models.CASCADE, related_name='book_orders')
     created_at = models.DateTimeField(auto_now_add=True)
-    end_at = models.DateTimeField(null=True)
+    end_at = models.DateTimeField(null=True, blank=True)
     plated_end_at = models.DateTimeField()
 
     def __str__(self):
